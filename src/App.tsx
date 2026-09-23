@@ -98,7 +98,6 @@ function App() {
       <header>
         <a className="brand" href="#top">routines</a>
         <p>personal reference / 2026</p>
-        <nav aria-label="Collections"><a href="#recipes">01 recipes</a><a href="#commands">02 commands</a><a href="#setup">03 setup</a></nav>
       </header>
 
       <main id="top">
@@ -106,15 +105,13 @@ function App() {
         <h1>routines<br /><em>for real life.</em></h1>
         <div className="intro-bottom">
           <p>A growing archive of recipes, Mac rituals, and the small things worth writing down once.</p>
-          <a href="#collections">enter archive <span>↘</span></a>
         </div>
+        <nav className="free-links" aria-label="Collections">
+          <a href="#recipes">01 / recipes <span>↗</span></a>
+          <a href="#commands">02 / mac commands <span>↗</span></a>
+          <a href="#setup">03 / fresh Mac setup <span>↗</span></a>
+        </nav>
       </main>
-
-      <section className="collection-list" id="collections" aria-label="Collections">
-        <a id="recipes" href="#recipes"><span>01</span><strong>Recipes</strong><small>the familiar things you make</small><b>↗</b></a>
-        <a id="commands" href="#commands"><span>02</span><strong>Mac commands</strong><small><code>yt-dlp</code> · PDFs · files · shortcuts</small><b>↗</b></a>
-        <a id="setup" href="#setup"><span>03</span><strong>Fresh Mac setup</strong><small>from clean slate to yours</small><b>↗</b></a>
-      </section>
 
       <footer><span>move your cursor</span><span>routines / 01—03</span></footer>
     </div>
