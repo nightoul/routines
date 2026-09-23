@@ -1,121 +1,47 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
 import './App.css'
 
+const sections = [
+  { number: '01', title: 'Recipes', description: 'The food you make on repeat, written down exactly the way you need it.', className: 'recipes' },
+  { number: '02', title: 'Mac commands', description: 'Small terminal spells for downloads, PDFs, files, and the rest of the useful stuff.', className: 'commands' },
+  { number: '03', title: 'Fresh Mac setup', description: 'A calm, ordered path from factory reset to a computer that feels like yours.', className: 'setup' },
+]
+
+function ArrowUpRight() { return <span aria-hidden="true">↗</span> }
+
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app-shell">
+      <header className="site-header">
+        <a className="wordmark" href="#top" aria-label="Routines home"><span className="wordmark-mark" aria-hidden="true">R</span>routines</a>
+        <span className="header-note">A personal reference library</span>
+      </header>
 
-      <div className="ticks"></div>
+      <main id="top">
+        <section className="intro" aria-labelledby="page-title">
+          <p className="eyebrow"><span /> YOUR EVERYDAY SYSTEMS</p>
+          <h1 id="page-title">Useful things,<br /><em>kept close.</em></h1>
+          <p className="intro-copy">A living collection of the routines that make everyday life run a little smoother.</p>
+          <a className="jump-link" href="#collections">Browse collections <ArrowUpRight /></a>
+        </section>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
+        <section className="collections" id="collections" aria-labelledby="collections-title">
+          <div className="section-heading"><p className="eyebrow"><span /> THE SHELVES</p><h2 id="collections-title">Start where you are.</h2></div>
+          <div className="collection-grid">
+            {sections.map((section) => (
+              <a className={`collection-card ${section.className}`} href={`#${section.className}`} key={section.title}>
+                <div className="card-topline"><span>{section.number}</span><ArrowUpRight /></div>
+                <div className="card-content"><h3>{section.title}</h3><p>{section.description}</p></div>
+                {section.className === 'recipes' && <div className="recipe-preview" aria-hidden="true"><span>Tonight&apos;s familiar</span><strong>Tomato pasta</strong><small>20 min · one pan</small></div>}
+                {section.className === 'commands' && <div className="command-preview" aria-hidden="true"><span>$</span> yt-dlp -f bestvideo<br /><span>$</span> pdftotext notes.pdf</div>}
+                {section.className === 'setup' && <ul className="setup-preview" aria-hidden="true"><li><span>✓</span> Homebrew</li><li><span>✓</span> Dotfiles</li><li><i /> Apps &amp; preferences</li></ul>}
               </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      </main>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <footer><p>Made for the routines worth remembering.</p><span>01 / 03</span></footer>
+    </div>
   )
 }
 
