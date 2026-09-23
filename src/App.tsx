@@ -102,7 +102,7 @@ function App() {
 
       <main id="top">
         <div className="intro-meta"><span>home</span><span>quiet systems for everyday life</span></div>
-        <h1>routines<br /><em>for real life.</em></h1>
+        <h1>routines</h1>
         <div className="intro-bottom">
           <p>A growing archive of recipes, Mac rituals, and the small things worth writing down once.</p>
         </div>
