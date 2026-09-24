@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import HomePage from './pages/HomePage'
+import MacSetupPage from './pages/MacSetupPage'
 import QpdfPage from './pages/QpdfPage'
 import TrimConvertPage from './pages/TrimConvertPage'
 import WhisperPage from './pages/WhisperPage'
@@ -19,6 +20,7 @@ function App() {
   if (hash === '#whisper') return <WhisperPage />
   if (hash === '#qpdf') return <QpdfPage />
   if (hash === '#trim-convert') return <TrimConvertPage />
+  if (hash === '#mac-setup') return <MacSetupPage />
   return <HomePage />
 }
 
