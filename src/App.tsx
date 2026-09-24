@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import HomePage from './pages/HomePage'
+import QpdfPage from './pages/QpdfPage'
+import TrimConvertPage from './pages/TrimConvertPage'
+import WhisperPage from './pages/WhisperPage'
 import YtDlpPage from './pages/YtDlpPage'
 
 function App() {
@@ -12,7 +15,11 @@ function App() {
     return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
 
-  return hash === '#yt-dlp' ? <YtDlpPage /> : <HomePage />
+  if (hash === '#yt-dlp') return <YtDlpPage />
+  if (hash === '#whisper') return <WhisperPage />
+  if (hash === '#qpdf') return <QpdfPage />
+  if (hash === '#trim-convert') return <TrimConvertPage />
+  return <HomePage />
 }
 
 export default App
