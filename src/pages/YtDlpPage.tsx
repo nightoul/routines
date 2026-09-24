@@ -24,7 +24,7 @@ function YtDlpPage() {
       <header><a className="brand" href="#">routines</a><p>personal reference / 2026</p></header>
       <main className="command-content">
         <div className="command-stack">
-          {commands.map(({ title, note, command }) => (
+          {commands.map(({ title, command }) => (
             <article className="command-item" key={title}>
               <div className="command-heading"><div><h2>{title}</h2></div><CopyCommand command={command} /></div>
               <code className="terminal-command">{command}</code>
