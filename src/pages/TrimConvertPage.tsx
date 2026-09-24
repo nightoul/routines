@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import ReactiveGrid from '../components/ReactiveGrid'
 
 const commands = [
   {
@@ -25,7 +24,6 @@ function CopyCommand({ command }: { command: string }) {
 function TrimConvertPage() {
   return (
     <div className="site command-page">
-      <ReactiveGrid />
       <header><a className="brand" href="#">routines</a><p>personal reference / 2026</p></header>
       <main className="command-content">
         <div className="command-stack trim-convert-stack">
