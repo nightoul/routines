@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const dockCommand = 'defaults write com.apple.dock autohide-time-modifier -int 0; killall Dock'
 const promptCommand = "PROMPT='%F{green}%n %~$%f '"
@@ -31,17 +31,28 @@ function SetupCode({ command }: { command: string }) {
 }
 
 function MacSetupPage() {
+  useEffect(() => {
+    const scrollToSection = () => {
+      const [, section] = window.location.hash.split('/')
+      if (section) window.requestAnimationFrame(() => document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' }))
+    }
+
+    scrollToSection()
+    window.addEventListener('hashchange', scrollToSection)
+    return () => window.removeEventListener('hashchange', scrollToSection)
+  }, [])
+
   return (
     <div className="site setup-page">
       <header><a className="brand" href="#">routines</a><p>personal reference / 2026</p></header>
       <main className="setup-content">
         <div className="setup-title"><p>mac setup</p><h1>mac<span className="title-dot">.</span></h1></div>
         <nav className="setup-nav" aria-label="Mac setup sections">
-          <a href="#mac">01 / mac</a>
-          <a href="#textedit">02 / textedit</a>
-          <a href="#terminal">03 / terminal</a>
-          <a href="#homebrew">04 / homebrew</a>
-          <a href="#applications">05 / applications</a>
+          <a href="#mac-setup/mac">01 / mac</a>
+          <a href="#mac-setup/textedit">02 / textedit</a>
+          <a href="#mac-setup/terminal">03 / terminal</a>
+          <a href="#mac-setup/homebrew">04 / homebrew</a>
+          <a href="#mac-setup/applications">05 / applications</a>
         </nav>
 
         <section className="setup-section" id="mac" aria-labelledby="preferences-title">

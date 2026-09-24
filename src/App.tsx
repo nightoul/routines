@@ -20,7 +20,7 @@ function App() {
   if (hash === '#whisper') return <WhisperPage />
   if (hash === '#qpdf') return <QpdfPage />
   if (hash === '#trim-convert') return <TrimConvertPage />
-  if (hash === '#mac-setup') return <MacSetupPage />
+  if (hash.startsWith('#mac-setup')) return <MacSetupPage />
   return <HomePage />
 }
 
