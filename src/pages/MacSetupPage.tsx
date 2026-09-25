@@ -52,7 +52,7 @@ function MacSetupPage() {
       <main className="setup-content">
         <nav className="setup-nav" aria-label="Mac setup sections">
           <a href="#mac-setup/mac">01 / mac</a>
-          <a href="#mac-setup/textedit">02 / textedit</a>
+          <a href="#mac-setup/textedit">02 / textedit & typora</a>
           <a href="#mac-setup/terminal">03 / terminal</a>
           <a href="#mac-setup/homebrew">04 / homebrew</a>
           <a href="#mac-setup/applications">05 / applications</a>
@@ -117,12 +117,13 @@ function MacSetupPage() {
         </section>
 
         <section className="setup-section" id="textedit" aria-labelledby="textedit-title">
-          <div className="setup-section-heading"><p>02 / textedit</p><h2 id="textedit-title">TextEdit</h2></div>
+          <div className="setup-section-heading"><p>02 / textedit</p><h2 id="textedit-title">TextEdit &amp; Typora</h2></div>
           <article className="preference-group">
             <ol>
               <li>In Preferences, set <strong>Use the format menu to choose settings for an open document</strong> to <strong>Plain text</strong>.</li>
               <li>Set the font to <strong>Menlo Regular 14</strong>.</li>
               <li>Untick every option at the bottom, including spell-checking options.</li>
+              <li>In Typora: <strong>Preferences → Markdown → Syntax Support</strong> → tick <strong>Highlight</strong> (e.g: ==key==).</li>
             </ol>
           </article>
         </section>
