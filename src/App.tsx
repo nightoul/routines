@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import HomePage from './pages/HomePage'
+import HostsPage from './pages/HostsPage'
 import MacSetupPage from './pages/MacSetupPage'
 import QpdfPage from './pages/QpdfPage'
 import TrimConvertPage from './pages/TrimConvertPage'
@@ -21,6 +22,7 @@ function App() {
   if (hash === '#qpdf') return <QpdfPage />
   if (hash === '#trim-convert') return <TrimConvertPage />
   if (hash.startsWith('#mac-setup')) return <MacSetupPage />
+  if (hash === '#etc-hosts') return <HostsPage />
   return <HomePage />
 }
 
