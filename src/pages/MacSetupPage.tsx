@@ -15,6 +15,10 @@ const homebrewCommands = [
   'brew upgrade yt-dlp',
   'brew install qpdf',
 ]
+const gitAliases = [
+  "alias gs='git status'",
+  "alias gb='git branch'",
+]
 
 function CopyCommand({ command }: { command: string }) {
   const [copied, setCopied] = useState(false)
@@ -53,6 +57,7 @@ function MacSetupPage() {
           <a href="#mac-setup/terminal">03 / terminal</a>
           <a href="#mac-setup/homebrew">04 / homebrew</a>
           <a href="#mac-setup/applications">05 / applications</a>
+          <a href="#mac-setup/vs-code">06 / vs code</a>
         </nav>
 
         <section className="setup-section" id="mac" aria-labelledby="preferences-title">
@@ -191,6 +196,24 @@ function MacSetupPage() {
               <li>VLC</li>
               <li>Vuze</li>
             </ul>
+          </article>
+        </section>
+
+        <section className="setup-section" id="vs-code" aria-labelledby="vs-code-title">
+          <div className="setup-section-heading"><p>06 / vs code</p><h2 id="vs-code-title">VS Code</h2></div>
+          <article className="preference-group terminal-reading">
+            <h3><span>1</span> Toggle the Terminal</h3>
+            <ol>
+              <li>Press <kbd>⌘ K</kbd>, then <kbd>⌘ S</kbd> to open Keyboard Shortcuts.</li>
+              <li>Search for <strong>View: Toggle Terminal</strong>.</li>
+              <li>Double-click its Keybinding column, enter your shortcut, then press <kbd>Enter</kbd>.</li>
+            </ol>
+          </article>
+          <article className="preference-group terminal-reading">
+            <h3><span>2</span> Git aliases</h3>
+            <p>Add these lines to <code>.zshrc</code> to create standalone aliases: <code>gs</code> for <code>git status</code> and <code>gb</code> for <code>git branch</code>.</p>
+            {gitAliases.map((command) => <SetupCode command={command} key={command} />)}
+            <p>Restart Terminal to load the new aliases.</p>
           </article>
         </section>
       </main>
