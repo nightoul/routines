@@ -23,7 +23,7 @@ function CopyCommand({ command }: { command: string }) {
 
 function QpdfPage() {
   return (
-    <div className="site command-page">
+    <div className="site command-page compact-page">
       <header><a className="brand" href="#">routines</a><p>personal reference / 2026</p></header>
       <main className="command-content">
         <div className="command-stack qpdf-stack">

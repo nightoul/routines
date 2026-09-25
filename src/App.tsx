@@ -4,6 +4,7 @@ import HomePage from './pages/HomePage'
 import HostsPage from './pages/HostsPage'
 import MacSetupPage from './pages/MacSetupPage'
 import QpdfPage from './pages/QpdfPage'
+import RecipesPage from './pages/RecipesPage'
 import TrimConvertPage from './pages/TrimConvertPage'
 import WhisperPage from './pages/WhisperPage'
 import YtDlpPage from './pages/YtDlpPage'
@@ -23,6 +24,7 @@ function App() {
   if (hash === '#trim-convert') return <TrimConvertPage />
   if (hash.startsWith('#mac-setup')) return <MacSetupPage />
   if (hash === '#etc-hosts') return <HostsPage />
+  if (hash.startsWith('#recipes')) return <RecipesPage />
   return <HomePage />
 }
 

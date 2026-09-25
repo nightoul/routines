@@ -50,7 +50,6 @@ function MacSetupPage() {
     <div className="site setup-page">
       <header><a className="brand" href="#">routines</a><p>personal reference / 2026</p></header>
       <main className="setup-content">
-        <div className="setup-title"><p>mac setup</p><h1>mac<span className="title-dot">.</span></h1></div>
         <nav className="setup-nav" aria-label="Mac setup sections">
           <a href="#mac-setup/mac">01 / mac</a>
           <a href="#mac-setup/textedit">02 / textedit</a>
