@@ -22,19 +22,15 @@ function CommandBlock({ command }: { command: string }) {
 
 function HostsPage() {
   return (
-    <div className="site command-page">
+    <div className="site command-page compact-page">
       <header><a className="brand" href="#">routines</a><p>personal reference / 2026</p></header>
       <main className="command-content hosts-content">
-        <section className="hosts-group" aria-labelledby="block-title">
-          <div className="hosts-heading"><span>01</span><h2 id="block-title">Block</h2></div>
-          <ol><li><CommandBlock command={commands.open} /></li><li>Add these lines:</li></ol>
+        <section className="hosts-group" aria-label="Instagram hosts file instructions">
+          <ol><li>Open the hosts file:</li></ol>
+          <CommandBlock command={commands.open} />
+          <ol start={2}><li>To block Instagram, add these lines:</li></ol>
           <CommandBlock command={commands.hosts} />
-          <ol start={3}><li>Save with <kbd>Ctrl + O</kbd>, press <kbd>Enter</kbd>, then exit with <kbd>Ctrl + X</kbd>.</li><li>Flush the DNS cache:</li></ol>
-          <CommandBlock command={commands.flush} />
-        </section>
-        <section className="hosts-group" aria-labelledby="unblock-title">
-          <div className="hosts-heading"><span>02</span><h2 id="unblock-title">Unblock</h2></div>
-          <ol><li><CommandBlock command={commands.open} /></li><li>Remove the Instagram lines.</li><li>Flush the DNS cache:</li></ol>
+          <ol start={3}><li>To unblock it later, remove those two lines.</li><li>Save with <kbd>Ctrl + O</kbd>, press <kbd>Enter</kbd>, then exit with <kbd>Ctrl + X</kbd>.</li><li>Flush the DNS cache:</li></ol>
           <CommandBlock command={commands.flush} />
         </section>
       </main>
