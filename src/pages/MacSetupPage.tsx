@@ -217,7 +217,7 @@ function MacSetupPage() {
           </article>
         </section>
       </main>
-      <footer><span>mac setup / one step at a time</span><span>mac / 01</span></footer>
+      <footer><span>mac / 01</span></footer>
     </div>
   )
 }

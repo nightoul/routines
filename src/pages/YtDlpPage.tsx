@@ -30,7 +30,7 @@ function YtDlpPage() {
           ))}
         </div>
       </main>
-      <footer><span>select / copy / run</span><span>yt-dlp / 02</span></footer>
+      <footer><span>yt-dlp / 02</span></footer>
     </div>
   )
 }

@@ -35,7 +35,7 @@ function QpdfPage() {
           ))}
         </div>
       </main>
-      <footer><span>select / copy / run</span><span>qpdf / 04</span></footer>
+      <footer><span>qpdf / 04</span></footer>
     </div>
   )
 }

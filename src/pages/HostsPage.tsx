@@ -34,7 +34,7 @@ function HostsPage() {
           <CommandBlock command={commands.flush} />
         </section>
       </main>
-      <footer><span>edit / save / flush</span><span>etc / hosts / 07</span></footer>
+      <footer><span>etc / hosts / 07</span></footer>
     </div>
   )
 }

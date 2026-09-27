@@ -31,7 +31,7 @@ function PeceneHroznyPage() {
           </div>
         </section>
       </main>
-      <footer><span>peč / promíchej / podávej</span><span>recepty / 01</span></footer>
+      <footer><span>recepty / 01</span></footer>
     </div>
   )
 }

@@ -31,7 +31,7 @@ function WhisperPage() {
           ))}
         </div>
       </main>
-      <footer><span>select / copy / run</span><span>whisper / 03</span></footer>
+      <footer><span>whisper / 03</span></footer>
     </div>
   )
 }

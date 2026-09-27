@@ -35,7 +35,7 @@ function TrimConvertPage() {
           ))}
         </div>
       </main>
-      <footer><span>select / copy / run</span><span>trim / convert / 05</span></footer>
+      <footer><span>trim / convert / 05</span></footer>
     </div>
   )
 }

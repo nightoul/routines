@@ -1,9 +1,9 @@
 const categories = [
-  { name: 'Breakfast', number: '01', className: 'breakfast', recipes: ['Vločky', 'coming soon'] },
-  { name: 'Lunch / dinner', number: '02', className: 'lunch', recipes: ['pečené hrozny', 'coming soon', 'coming soon', 'coming soon'] },
-  { name: 'Salads', number: '03', className: 'salads', recipes: ['coming soon', 'coming soon'] },
-  { name: 'Soups', number: '04', className: 'soups', recipes: ['coming soon'] },
-  { name: 'Other', number: '05', className: 'other', recipes: ['coming soon', 'coming soon', 'coming soon'] },
+  { name: 'breakfast', number: '01', className: 'breakfast', recipes: ['Vločky', 'coming soon'] },
+  { name: 'lunch / dinner', number: '02', className: 'lunch', recipes: ['pečené hrozny', 'coming soon', 'coming soon', 'coming soon'] },
+  { name: 'salads', number: '03', className: 'salads', recipes: ['coming soon', 'coming soon'] },
+  { name: 'soups', number: '04', className: 'soups', recipes: ['coming soon'] },
+  { name: 'other', number: '05', className: 'other', recipes: ['coming soon', 'coming soon', 'coming soon'] },
 ]
 
 function recipeHref(recipe: string) {
@@ -34,7 +34,7 @@ function RecipesPage() {
           ))}
         </div>
       </main>
-      <footer><span>recipes / a growing collection</span><span>05 categories</span></footer>
+      <footer><span>05 categories</span></footer>
     </div>
   )
 }
