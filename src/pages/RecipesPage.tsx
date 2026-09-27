@@ -1,13 +1,13 @@
 const categories = [
   { name: 'Breakfast', number: '01', className: 'breakfast', recipes: ['Vločky', 'coming soon'] },
-  { name: 'Lunch / dinner', number: '02', className: 'lunch', recipes: ['coming soon', 'coming soon', 'coming soon', 'coming soon'] },
+  { name: 'Lunch / dinner', number: '02', className: 'lunch', recipes: ['pečené hrozny', 'coming soon', 'coming soon', 'coming soon'] },
   { name: 'Salads', number: '03', className: 'salads', recipes: ['coming soon', 'coming soon'] },
   { name: 'Soups', number: '04', className: 'soups', recipes: ['coming soon'] },
   { name: 'Other', number: '05', className: 'other', recipes: ['coming soon', 'coming soon', 'coming soon'] },
 ]
 
 function recipeHref(recipe: string) {
-  return recipe === 'Vločky' ? '#recipes/vlocky' : undefined
+  return recipe === 'pečené hrozny' ? '#recipes/pecene-hrozny' : undefined
 }
 
 function RecipesPage() {
