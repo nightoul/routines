@@ -98,6 +98,7 @@ function MacSetupPage() {
               <li>Set <strong>Position on screen</strong> to <strong>Left</strong>.</li>
               <li>Untick <strong>Show suggested and recent apps in Dock</strong>.</li>
               <li>Tick <strong>Automatically hide and show Dock</strong>.</li>
+              <li>Scroll down and click Hot Corners. Remove Notes app from bottom right corner.</li>
               <li>Remove unwanted apps from the Dock.</li>
               <li>Run this for instant Dock animation:</li>
             </ol>
