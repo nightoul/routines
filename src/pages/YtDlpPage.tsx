@@ -1,9 +1,9 @@
 import { useState } from 'react'
 
 const commands = [
-  { title: 'Download audio', note: 'Extract an MP3 from a YouTube video.', command: 'yt-dlp --cookies-from-browser chrome -x --audio-format mp3 "VIDEO_URL"' },
-  { title: 'Download video', note: 'Save the video using the best available format.', command: 'yt-dlp --cookies-from-browser chrome "VIDEO_URL"' },
-  { title: 'Download video chunk', note: 'Download only a section of a video.', command: 'yt-dlp --cookies-from-browser chrome --download-sections "*1:23-2:40" "VIDEO_URL"' },
+  { title: 'Download audio', note: 'Extract an MP3 from a YouTube video.', command: 'yt-dlp --cookies-from-browser brave -x --audio-format mp3 "VIDEO_URL"' },
+  { title: 'Download video', note: 'Save the video using the best available format.', command: 'yt-dlp --cookies-from-browser brave "VIDEO_URL"' },
+  { title: 'Download video chunk', note: 'Download only a section of a video.', command: 'yt-dlp --cookies-from-browser brave --download-sections "*1:23-2:40" "VIDEO_URL"' },
 ]
 
 function CopyCommand({ command }: { command: string }) {
