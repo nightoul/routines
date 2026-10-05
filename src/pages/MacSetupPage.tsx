@@ -13,6 +13,7 @@ const homebrewCommands = [
   'brew install blackhole-2ch',
   'brew install yt-dlp',
   'brew upgrade yt-dlp',
+  'brew install ffmpeg',
   'brew install qpdf',
 ]
 const gitAliases = [
@@ -177,9 +178,12 @@ function MacSetupPage() {
             {homebrewCommands.slice(0, 4).map((command) => <SetupCode command={command} key={command} />)}
           </article>
           <article className="preference-group terminal-reading">
-            <h3><span>3</span> Other tools</h3>
-            <p>Keep Homebrew up to date, then install the tools used elsewhere in this archive.</p>
-            {homebrewCommands.slice(4).map((command) => <SetupCode command={command} key={command} />)}
+            <h3><span>3</span> Keep Homebrew current</h3>
+            {homebrewCommands.slice(4, 6).map((command) => <SetupCode command={command} key={command} />)}
+          </article>
+          <article className="preference-group terminal-reading">
+            <h3><span>4</span> Other tools</h3>
+            {homebrewCommands.slice(6).map((command) => <SetupCode command={command} key={command} />)}
           </article>
         </section>
 
