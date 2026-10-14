@@ -13,7 +13,7 @@ function recipeHref(recipe: string) {
 function RecipesPage() {
   return (
     <div className="site recipes-index-page compact-page">
-      <header><a className="brand" href="#">routines</a><p>personal reference / 2026</p></header>
+      <header><a className="brand" href="#">routines</a></header>
       <main className="recipes-index-content">
         <div className="recipe-catalog" aria-label="Recipe categories">
           {categories.map((category) => (

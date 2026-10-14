@@ -1,7 +1,7 @@
 function PeceneHroznyPage() {
   return (
     <div className="site recipe-page compact-page">
-      <header><a className="brand" href="#">routines</a><p>personal reference / 2026</p></header>
+      <header><a className="brand" href="#">routines</a></header>
       <main className="recipe-content">
         <section className="recipe-section recipe-detail">
           <a className="recipe-back" href="#recipes">recepty</a>

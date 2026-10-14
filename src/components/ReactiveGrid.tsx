@@ -54,15 +54,6 @@ function ReactiveGrid() {
         }
         context.stroke()
       }
-      const glow = context.createRadialGradient(current.x, current.y, 0, current.x, current.y, 45)
-      glow.addColorStop(0, 'rgba(255, 255, 255, .88)')
-      glow.addColorStop(0.08, 'rgba(255, 255, 255, .88)')
-      glow.addColorStop(0.2, 'rgba(225, 239, 235, .22)')
-      glow.addColorStop(1, 'rgba(225, 239, 235, 0)')
-      context.fillStyle = glow
-      context.beginPath()
-      context.arc(current.x, current.y, 45, 0, Math.PI * 2)
-      context.fill()
       frame = requestAnimationFrame(draw)
     }
     resize()

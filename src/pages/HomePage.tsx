@@ -4,9 +4,8 @@ function HomePage() {
   return (
     <div className="site home-page">
       <ReactiveGrid />
-      <header><a className="brand" href="#top">routines</a><p>personal reference / 2026</p></header>
+      <header><a className="brand" href="#top">routines</a><p>sept 22 / 2026</p></header>
       <main id="top">
-        <div className="intro-meta"><span>home</span><span>quiet systems for everyday life</span></div>
         <h1>routines<span className="title-dot">.</span></h1>
         <div className="intro-bottom"><p>A growing archive of routines worth writing down once.</p></div>
         <nav className="free-links" aria-label="Collections">

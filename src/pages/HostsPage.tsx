@@ -23,7 +23,7 @@ function CommandBlock({ command }: { command: string }) {
 function HostsPage() {
   return (
     <div className="site command-page compact-page">
-      <header><a className="brand" href="#">routines</a><p>personal reference / 2026</p></header>
+      <header><a className="brand" href="#">routines</a></header>
       <main className="command-content hosts-content">
         <section className="hosts-group" aria-label="Instagram hosts file instructions">
           <ol><li>Open the hosts file:</li></ol>

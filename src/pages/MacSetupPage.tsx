@@ -55,7 +55,7 @@ function MacSetupPage() {
 
   return (
     <div className="site setup-page">
-      <header><a className="brand" href="#">routines</a><p>personal reference / 2026</p></header>
+      <header><a className="brand" href="#">routines</a></header>
       <main className="setup-content">
         <nav className="setup-nav" aria-label="Mac setup sections">
           <a href="#mac-setup/mac">01 / mac</a>
