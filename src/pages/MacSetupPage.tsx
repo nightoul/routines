@@ -20,6 +20,12 @@ const gitAliases = [
   "alias gs='git status'",
   "alias gb='git branch'",
 ]
+const whisperInstallCommands = [
+  'python3 -m venv ~/whisper-env',
+  'source ~/whisper-env/bin/activate',
+  'python -m pip install --upgrade pip',
+  'python -m pip install -U openai-whisper',
+]
 
 function CopyCommand({ command }: { command: string }) {
   const [copied, setCopied] = useState(false)
@@ -31,8 +37,8 @@ function CopyCommand({ command }: { command: string }) {
   return <button className="copy-command" type="button" onClick={copy}>{copied ? 'copied' : 'copy'}</button>
 }
 
-function SetupCode({ command }: { command: string }) {
-  return <div className="setup-command"><code>{command}</code><CopyCommand command={command} /></div>
+function SetupCode({ command, multiline = false }: { command: string, multiline?: boolean }) {
+  return <div className={`setup-command${multiline ? ' multiline-command' : ''}`}><code>{command}</code><CopyCommand command={command} /></div>
 }
 
 function MacSetupPage() {
@@ -58,6 +64,7 @@ function MacSetupPage() {
           <a href="#mac-setup/homebrew">04 / homebrew</a>
           <a href="#mac-setup/applications">05 / applications</a>
           <a href="#mac-setup/vs-code">06 / vs code</a>
+          <a href="#mac-setup/whisper">07 / whisper</a>
         </nav>
 
         <section className="setup-section" id="mac" aria-labelledby="preferences-title">
@@ -219,6 +226,34 @@ function MacSetupPage() {
             <p>Add these lines to <code>.zshrc</code> to create standalone aliases: <code>gs</code> for <code>git status</code> and <code>gb</code> for <code>git branch</code>.</p>
             {gitAliases.map((command) => <SetupCode command={command} key={command} />)}
             <p>Restart Terminal to load the new aliases.</p>
+          </article>
+        </section>
+
+        <section className="setup-section" id="whisper" aria-labelledby="whisper-title">
+          <div className="setup-section-heading"><p>07 / whisper</p><h2 id="whisper-title">Whisper</h2></div>
+          <article className="preference-group terminal-reading">
+            <p>Whisper is a free, open-source speech recognition software. After installing the tool and downloading a model, transcription can run offline.</p>
+            <p>We install it in a dedicated Python virtual environment at <code>~/whisper-env</code>. This folder contains Whisper and its Python dependencies, keeping them separate from other Python projects. A virtual environment is not required by Whisper itself; it is the setup used here. FFmpeg, installed separately, reads the audio.</p>
+            <p>The first time you use a particular model, Whisper downloads it to disk, normally in <code>~/.cache/whisper/</code> unless the cache location has been customized. Later runs reuse it. The medium model download is approximately 1.5 GB.</p>
+          </article>
+          <article className="preference-group terminal-reading">
+            <h3><span>1</span> Check Python</h3>
+            <p>Check that Python is installed:</p>
+            <SetupCode command="python3 --version" />
+          </article>
+          <article className="preference-group terminal-reading">
+            <h3><span>2</span> Install Whisper</h3>
+            <p>With Homebrew installed, run these commands in order:</p>
+            {whisperInstallCommands.map((command) => <SetupCode command={command} key={command} />)}
+          </article>
+          <article className="preference-group terminal-reading">
+            <h3><span>3</span> Use Whisper</h3>
+            <p>Activate the virtual environment:</p>
+            <SetupCode command="source ~/whisper-env/bin/activate" />
+            <p>Then transcribe an audio file:</p>
+            <SetupCode multiline command={'whisper "/path/to/audio.mp3" --model medium --language English \\\n  --task transcribe --output_format txt --output_dir ~/Desktop --fp16 False'} />
+            <p>When you are done, leave the virtual environment:</p>
+            <SetupCode command="deactivate" />
           </article>
         </section>
       </main>
