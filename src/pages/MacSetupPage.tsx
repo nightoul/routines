@@ -65,6 +65,7 @@ function MacSetupPage() {
           <a href="#mac-setup/applications">05 / applications</a>
           <a href="#mac-setup/vs-code">06 / vs code</a>
           <a href="#mac-setup/whisper">07 / whisper</a>
+          <a href="#mac-setup/python-scripts">08 / python scripts</a>
         </nav>
 
         <section className="setup-section" id="mac" aria-labelledby="preferences-title">
@@ -253,6 +254,20 @@ function MacSetupPage() {
             <p>Then transcribe an audio file:</p>
             <SetupCode multiline command={'whisper "/path/to/audio.mp3" --model medium --language English \\\n  --task transcribe --output_format txt --output_dir ~/Desktop --fp16 False'} />
             <p>When you are done, leave the virtual environment:</p>
+            <SetupCode command="deactivate" />
+          </article>
+        </section>
+
+        <section className="setup-section" id="python-scripts" aria-labelledby="python-scripts-title">
+          <div className="setup-section-heading"><p>08 / python scripts</p><h2 id="python-scripts-title">Python Scripts</h2></div>
+          <article className="preference-group terminal-reading">
+            <h3><span>1</span> Pexeso Generator</h3>
+            <p>After cloning the project, run these commands to set it up on a fresh Mac:</p>
+            <SetupCode command="cd ~/gh/pexeso-generator" />
+            <SetupCode multiline command={'python3 -m venv .venv\nsource .venv/bin/activate'} />
+            <SetupCode command="python -m pip install -r requirements.txt" />
+            <p>To use it:</p>
+            <SetupCode multiline command={'cd ~/gh/pexeso-generator\nsource .venv/bin/activate\npython pexeso.py ~/Desktop/pics -o ~/Desktop/cards.pdf'} />
             <SetupCode command="deactivate" />
           </article>
         </section>
