@@ -12,7 +12,6 @@ const homebrewCommands = [
   'brew install node',
   'brew install blackhole-2ch',
   'brew install yt-dlp',
-  'brew upgrade yt-dlp',
   'brew install ffmpeg',
   'brew install qpdf',
 ]
