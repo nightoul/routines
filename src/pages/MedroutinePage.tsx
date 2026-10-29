@@ -1,6 +1,6 @@
 import { type ReactNode, useEffect, useRef, useState } from 'react'
 import { type Habit, habits, habitsOn, startDate } from '../medroutine/config'
-import { ConflictError, type DaySteps, readLog, type Log, writeLog } from '../medroutine/github'
+import { ConflictError, type DayNotes, readLog, type Log, writeLog } from '../medroutine/github'
 
 const TOKEN_KEY = 'medroutine-token'
 
@@ -64,14 +64,14 @@ function Modal({ open, onClose, children }: { open: boolean, onClose: () => void
   )
 }
 
-type Info = { habit: Habit, day: string, steps: string[] }
+type Info = { habit: Habit, day: string, note: string }
 
-function StepsInfo({ info, onClose }: { info: Info, onClose: () => void }) {
+function NoteInfo({ info, onClose }: { info: Info, onClose: () => void }) {
   return (
     <div>
       <h2>{info.habit.label}</h2>
       <p className="med-info-date">{shortDate(info.day)}</p>
-      <ol className="med-steps">{info.steps.map((s, i) => <li key={i}>{s}</li>)}</ol>
+      <p className="med-note">{info.note}</p>
       <div className="med-actions">
         <button className="med-primary" type="button" onClick={onClose}>Close</button>
       </div>
@@ -79,20 +79,17 @@ function StepsInfo({ info, onClose }: { info: Info, onClose: () => void }) {
   )
 }
 
-const stepsToText = (steps: DaySteps = {}) => Object.fromEntries(Object.entries(steps).map(([id, lines]) => [id, lines.join('\n')]))
-const textToSteps = (text = '') => text.split('\n').map((s) => s.trim()).filter(Boolean)
-
-function LogForm({ log, today, onSave, onCancel }: { log: Log, today: string, onSave: (day: string, ids: string[], steps: DaySteps) => Promise<void>, onCancel: () => void }) {
+function LogForm({ log, today, onSave, onCancel }: { log: Log, today: string, onSave: (day: string, ids: string[], notes: DayNotes) => Promise<void>, onCancel: () => void }) {
   const [day, setDay] = useState(today)
   const [checked, setChecked] = useState<string[]>(log.days[today] ?? [])
-  const [notes, setNotes] = useState<Record<string, string>>(stepsToText(log.steps[today]))
+  const [notes, setNotes] = useState<DayNotes>(log.notes[today] ?? {})
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
-  const pickDay = (d: string) => { setDay(d); setChecked(log.days[d] ?? []); setNotes(stepsToText(log.steps[d])); setError('') }
+  const pickDay = (d: string) => { setDay(d); setChecked(log.days[d] ?? []); setNotes(log.notes[d] ?? {}); setError('') }
   const toggle = (id: string) => setChecked((c) => (c.includes(id) ? c.filter((x) => x !== id) : [...c, id]))
-  // Writing steps means the habit was done.
-  const writeNotes = (id: string, text: string) => {
+  // Writing a note means the habit was done.
+  const writeNote = (id: string, text: string) => {
     setNotes((n) => ({ ...n, [id]: text }))
     if (text.trim()) setChecked((c) => (c.includes(id) ? c : [...c, id]))
   }
@@ -101,8 +98,8 @@ function LogForm({ log, today, onSave, onCancel }: { log: Log, today: string, on
     setSaving(true)
     setError('')
     const ids = habits.map((h) => h.id).filter((id) => checked.includes(id))
-    const steps = Object.fromEntries(ids.map((id) => [id, textToSteps(notes[id])]).filter(([, lines]) => lines.length > 0))
-    try { await onSave(day, ids, steps) } catch (e) { setError((e as Error).message); setSaving(false) }
+    const dayNotes = Object.fromEntries(ids.map((id) => [id, notes[id]?.trim() ?? '']).filter(([, text]) => text))
+    try { await onSave(day, ids, dayNotes) } catch (e) { setError((e as Error).message); setSaving(false) }
   }
 
   return (
@@ -120,8 +117,8 @@ function LogForm({ log, today, onSave, onCancel }: { log: Log, today: string, on
               <span className="med-box" aria-hidden="true" />
               {h.label}
             </label>
-            {h.steps && (
-              <textarea className="med-steps-input" value={notes[h.id] ?? ''} onChange={(e) => writeNotes(h.id, e.target.value)} placeholder="Steps, one per line (optional)" rows={3} aria-label={`${h.label} steps`} />
+            {h.note && (
+              <textarea className="med-note-input" value={notes[h.id] ?? ''} onChange={(e) => writeNote(h.id, e.target.value)} placeholder={h.note} rows={2} aria-label={`${h.label} note`} />
             )}
           </li>
         ))}
@@ -157,7 +154,7 @@ function ConnectForm({ onConnect, onCancel }: { onConnect: (token: string) => vo
 
 function MedroutinePage() {
   const [token, setToken] = useState(loadToken)
-  const [log, setLog] = useState<Log>({ days: {}, steps: {} })
+  const [log, setLog] = useState<Log>({ days: {}, notes: {} })
   const [loadError, setLoadError] = useState('')
   const [modal, setModal] = useState<'log' | 'connect' | null>(null)
   const [info, setInfo] = useState<Info | null>(null)
@@ -170,14 +167,14 @@ function MedroutinePage() {
       .catch((e: Error) => setLoadError(e.message))
   }, [token])
 
-  const saveDay = async (day: string, ids: string[], daySteps: DaySteps) => {
+  const saveDay = async (day: string, ids: string[], dayNotes: DayNotes) => {
     if (!token) throw new Error('Connect GitHub first.')
     const withDay = (base: Log) => {
       const days = { ...base.days, [day]: ids }
       if (ids.length === 0) delete days[day]
-      const steps = { ...base.steps, [day]: daySteps }
-      if (Object.keys(daySteps).length === 0) delete steps[day]
-      return { days, steps }
+      const notes = { ...base.notes, [day]: dayNotes }
+      if (Object.keys(dayNotes).length === 0) delete notes[day]
+      return { days, notes }
     }
     const message = `medroutine: log ${day}`
     let next = withDay(log)
@@ -232,9 +229,9 @@ function MedroutinePage() {
                         <span>{h.label}<span className="sr-only">{isDone ? ', done' : ', not done'}</span></span>
                       </>
                     )
-                    const steps = log.steps[day]?.[h.id]
-                    return steps?.length
-                      ? <button className={`med-tile has-steps${isDone ? ' done' : ''}`} type="button" key={h.id} onClick={() => setInfo({ habit: h, day, steps })} title="Show steps">{content}</button>
+                    const note = log.notes[day]?.[h.id]
+                    return note
+                      ? <button className={`med-tile has-note${isDone ? ' done' : ''}`} type="button" key={h.id} onClick={() => setInfo({ habit: h, day, note })} title="Show note">{content}</button>
                       : <div className={`med-tile${isDone ? ' done' : ''}`} key={h.id}>{content}</div>
                   })}
                 </div>
@@ -251,7 +248,7 @@ function MedroutinePage() {
         {modal === 'connect' && <ConnectForm onConnect={connect} onCancel={() => setModal(null)} />}
       </Modal>
       <Modal open={info !== null} onClose={() => setInfo(null)}>
-        {info && <StepsInfo info={info} onClose={() => setInfo(null)} />}
+        {info && <NoteInfo info={info} onClose={() => setInfo(null)} />}
       </Modal>
     </div>
   )

@@ -1,9 +1,9 @@
 import { repo } from './config'
 
-// Steps written down for habits on one day, by habit id.
-export type DaySteps = Record<string, string[]>
-// days: the habit ids done on each day. steps: each day's written-down steps.
-export type Log = { days: Record<string, string[]>, steps: Record<string, DaySteps> }
+// Notes written for habits on one day, by habit id.
+export type DayNotes = Record<string, string>
+// days: the habit ids done on each day. notes: each day's notes.
+export type Log = { days: Record<string, string[]>, notes: Record<string, DayNotes> }
 export type LogFile = { log: Log, sha: string | null }
 
 const url = `https://api.github.com/repos/${repo.owner}/${repo.name}/contents/${repo.path}`
@@ -18,12 +18,17 @@ const encode = (text: string) => btoa(Array.from(new TextEncoder().encode(text),
 
 export async function readLog(token: string | null): Promise<LogFile> {
   const res = await fetch(`${url}?ref=${repo.branch}`, { headers: headers(token), cache: 'no-store' })
-  if (res.status === 404) return { log: { days: {}, steps: {} }, sha: null }
+  if (res.status === 404) return { log: { days: {}, notes: {} }, sha: null }
   if (!res.ok) throw new Error(`GitHub read failed (${res.status})`)
   const body = await res.json()
-  const log = JSON.parse(decode(body.content)) as Partial<Log>
-  return { log: { days: log.days ?? {}, steps: log.steps ?? {} }, sha: body.sha }
+  const log = JSON.parse(decode(body.content)) as Partial<Log> & { steps?: Record<string, Record<string, string[]>> }
+  return { log: { days: log.days ?? {}, notes: log.notes ?? notesFromSteps(log.steps) }, sha: body.sha }
 }
+
+// Older logs kept a list of steps per habit; read them as one note with a line per step.
+// The next save writes `notes` instead, after which this is no longer needed.
+const notesFromSteps = (steps: Record<string, Record<string, string[]>> = {}) =>
+  Object.fromEntries(Object.entries(steps).map(([day, byHabit]) => [day, Object.fromEntries(Object.entries(byHabit).map(([id, lines]) => [id, lines.join('\n')]))]))
 
 export class ConflictError extends Error {}
 
