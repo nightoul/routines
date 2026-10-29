@@ -89,8 +89,7 @@ function LogForm({ log, today, onSave, onCancel }: { log: Log, today: string, on
     setSaving(true)
     setError('')
     const ids = habits.map((h) => h.id).filter((id) => checked.includes(id))
-    // Only done habits keep their notes.
-    const dayNotes = Object.fromEntries(ids.map((id) => [id, notes[id]?.trim()]).filter(([, text]) => text))
+    const dayNotes = Object.fromEntries(habits.map((h) => [h.id, notes[h.id]?.trim()]).filter(([, text]) => text))
     try { await onSave(day, ids, dayNotes) } catch (e) { setError((e as Error).message); setSaving(false) }
   }
 
@@ -109,9 +108,7 @@ function LogForm({ log, today, onSave, onCancel }: { log: Log, today: string, on
               <span className="med-box" aria-hidden="true" />
               {h.label}
             </label>
-            {checked.includes(h.id) && (
-              <textarea className="med-note-input" value={notes[h.id] ?? ''} onChange={(e) => setNotes((n) => ({ ...n, [h.id]: e.target.value }))} placeholder="Note (optional)" rows={1} aria-label={`${h.label} note`} />
-            )}
+            <textarea className="med-note-input" value={notes[h.id] ?? ''} onChange={(e) => setNotes((n) => ({ ...n, [h.id]: e.target.value }))} placeholder="Note (optional)" rows={1} aria-label={`${h.label} note`} />
           </li>
         ))}
       </ul>
