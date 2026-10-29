@@ -45,7 +45,7 @@ function Ring({ done, total }: { done: number, total: number }) {
   )
 }
 
-function Modal({ open, onClose, children }: { open: boolean, onClose: () => void, children: ReactNode }) {
+function Modal({ open, wide = false, onClose, children }: { open: boolean, wide?: boolean, onClose: () => void, children: ReactNode }) {
   const ref = useRef<HTMLDialogElement>(null)
   useEffect(() => {
     const dialog = ref.current
@@ -54,7 +54,7 @@ function Modal({ open, onClose, children }: { open: boolean, onClose: () => void
     if (!open && dialog.open) dialog.close()
   }, [open])
   return (
-    <dialog ref={ref} className="med-modal" onClose={onClose} onClick={(e) => { if (e.target === ref.current) onClose() }}>
+    <dialog ref={ref} className={`med-modal${wide ? ' wide' : ''}`} onClose={onClose} onClick={(e) => { if (e.target === ref.current) onClose() }}>
       {open && children}
     </dialog>
   )
@@ -236,7 +236,7 @@ function MedroutinePage() {
       </main>
       <footer><span>medroutine / 01B</span></footer>
 
-      <Modal open={modal !== null} onClose={close}>
+      <Modal open={modal !== null} wide={modal === 'log'} onClose={close}>
         {modal === 'log' && <LogForm log={log} today={today} onSave={saveDay} onCancel={close} />}
         {modal === 'connect' && <ConnectForm onConnect={connect} onCancel={close} />}
         {typeof modal === 'object' && modal && <NoteInfo {...modal} onClose={close} />}
