@@ -1,4 +1,16 @@
 {
-  "days": {},
-  "steps": {}
+  "days": {
+    "2026-10-29": [
+      "exercise",
+      "vitamin-d",
+      "apple"
+    ]
+  },
+  "steps": {
+    "2026-10-29": {
+      "exercise": [
+        "prochazka na stvanici"
+      ]
+    }
+  }
 }
