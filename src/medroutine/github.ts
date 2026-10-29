@@ -1,6 +1,9 @@
 import { repo } from './config'
 
-export type Log = { days: Record<string, string[]> }
+// Steps written down for habits on one day, by habit id.
+export type DaySteps = Record<string, string[]>
+// days: the habit ids done on each day. steps: each day's written-down steps.
+export type Log = { days: Record<string, string[]>, steps: Record<string, DaySteps> }
 export type LogFile = { log: Log, sha: string | null }
 
 const url = `https://api.github.com/repos/${repo.owner}/${repo.name}/contents/${repo.path}`
@@ -15,11 +18,11 @@ const encode = (text: string) => btoa(Array.from(new TextEncoder().encode(text),
 
 export async function readLog(token: string | null): Promise<LogFile> {
   const res = await fetch(`${url}?ref=${repo.branch}`, { headers: headers(token), cache: 'no-store' })
-  if (res.status === 404) return { log: { days: {} }, sha: null }
+  if (res.status === 404) return { log: { days: {}, steps: {} }, sha: null }
   if (!res.ok) throw new Error(`GitHub read failed (${res.status})`)
   const body = await res.json()
-  const log = JSON.parse(decode(body.content)) as Log
-  return { log: { days: log.days ?? {} }, sha: body.sha }
+  const log = JSON.parse(decode(body.content)) as Partial<Log>
+  return { log: { days: log.days ?? {}, steps: log.steps ?? {} }, sha: body.sha }
 }
 
 export class ConflictError extends Error {}
