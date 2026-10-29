@@ -9,7 +9,7 @@ function HomePage() {
         <h1>routines<span className="title-dot">.</span></h1>
         <div className="intro-bottom"><p>A growing archive of routines worth writing down once.</p></div>
         <nav className="free-links" aria-label="Collections">
-          <a href="#recipes">01A / recipes</a><a href="#bylinky-koreni">01B / bylinky &amp; koření</a><a href="#yt-dlp">02 / yt-dlp</a><a href="#whisper">03 / whisper</a><a href="#qpdf">04 / qpdf</a><a href="#trim-convert">05 / trim / convert</a><a href="#mac-setup">06 / Mac setup</a><a href="#etc-hosts">07 / etc / hosts</a>
+          <a href="#recipes">01A / recipes</a><a href="#medroutine">01B / medroutine</a><a href="#yt-dlp">02 / yt-dlp</a><a href="#whisper">03 / whisper</a><a href="#qpdf">04 / qpdf</a><a href="#trim-convert">05 / trim / convert</a><a href="#mac-setup">06 / Mac setup</a><a href="#etc-hosts">07 / etc / hosts</a>
         </nav>
       </main>
       <footer><span>move your cursor</span><span>routines / 01a—07</span></footer>

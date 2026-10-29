@@ -3,6 +3,8 @@ name: Build and deploy
 on:
   push:
     branches: [master]
+    # The medroutine page reads its log from the GitHub API, so log commits don't need a deploy.
+    paths-ignore: ['data/**']
   workflow_dispatch:
 
 permissions:

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import HomePage from './pages/HomePage'
-import HerbsAndSpicesPage from './pages/HerbsAndSpicesPage'
 import HostsPage from './pages/HostsPage'
 import MacSetupPage from './pages/MacSetupPage'
+import MedroutinePage from './pages/MedroutinePage'
 import QpdfPage from './pages/QpdfPage'
 import RecipesPage from './pages/RecipesPage'
 import PeceneHroznyPage from './pages/recipes/PeceneHroznyPage'
@@ -26,7 +26,7 @@ function App() {
   if (hash === '#trim-convert') return <TrimConvertPage />
   if (hash.startsWith('#mac-setup')) return <MacSetupPage />
   if (hash === '#etc-hosts') return <HostsPage />
-  if (hash === '#bylinky-koreni') return <HerbsAndSpicesPage />
+  if (hash === '#medroutine') return <MedroutinePage />
   if (hash === '#recipes/pecene-hrozny') return <PeceneHroznyPage />
   if (hash.startsWith('#recipes')) return <RecipesPage />
   return <HomePage />
