@@ -1,19 +1,17 @@
 // The first day shown in the log.
 export const startDate = '2026-10-29'
 
-export type Habit = { id: string, label: string, from?: string, until?: string, note?: string }
+export type Habit = { id: string, label: string, from?: string, until?: string }
 
 // The daily habits. Days only show the habits that were active on them, so the routine can change over time:
 // - add a habit with `from` set to its first day, so older days don't show it as missed
 // - retire a habit by setting `until` to its last day instead of deleting it, so older days keep it
-// - `note` lets you write a plain-text note when logging a day (the text is the hint in the empty box);
-//   that day's tile then opens the note
 // Keep ids stable: the log stores ids, so renaming a label is safe.
 export const habits: Habit[] = [
-  { id: 'exercise', label: 'exercise', note: 'What did you do? (optional)' },
+  { id: 'exercise', label: 'exercise' },
   { id: 'meditation', label: 'meditation' },
   { id: 'veg', label: 'veg dish' },
-  { id: 'soup', label: 'soup', from: '2026-10-29', note: 'Which soup? (optional)' },
+  { id: 'soup', label: 'soup', from: '2026-10-29' },
   { id: 'nuts', label: 'nuts', from: '2026-10-29' },
   { id: 'apple', label: 'apple' },
   { id: 'vitamin-d', label: 'vitamin d' },

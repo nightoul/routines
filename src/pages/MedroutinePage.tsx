@@ -3,10 +3,12 @@ import { type Habit, habits, habitsOn, startDate } from '../medroutine/config'
 import { ConflictError, type DayNotes, readLog, type Log, writeLog } from '../medroutine/github'
 
 const TOKEN_KEY = 'medroutine-token'
+const DAYS_AHEAD = 1
 
 const pad = (n: number) => String(n).padStart(2, '0')
 const isoDate = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 const parseDate = (iso: string) => { const [y, m, d] = iso.split('-').map(Number); return new Date(y, m - 1, d) }
+const addDays = (iso: string, n: number) => { const d = parseDate(iso); d.setDate(d.getDate() + n); return isoDate(d) }
 const weekday = (iso: string) => parseDate(iso).toLocaleDateString('en-GB', { weekday: 'long' })
 const shortDate = (iso: string) => parseDate(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 
@@ -18,23 +20,17 @@ function storeToken(token: string | null) {
   try { if (token) localStorage.setItem(TOKEN_KEY, token); else localStorage.removeItem(TOKEN_KEY) } catch { /* storage unavailable */ }
 }
 
-const DAYS_AHEAD = 1
-
 // Every day from DAYS_AHEAD days ahead back to the first shown day, newest first.
 function dayRange(log: Log, today: string) {
   const first = [startDate, ...Object.keys(log.days)].sort()[0]
   const days: string[] = []
-  const d = parseDate(today)
-  d.setDate(d.getDate() + DAYS_AHEAD)
-  for (; isoDate(d) >= first; d.setDate(d.getDate() - 1)) days.push(isoDate(d))
+  for (let d = addDays(today, DAYS_AHEAD); d >= first; d = addDays(d, -1)) days.push(d)
   return days
 }
 
 function dayTitle(day: string, today: string) {
   if (day === today) return 'Today'
-  const tomorrow = parseDate(today)
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  return day === isoDate(tomorrow) ? 'Tomorrow' : weekday(day)
+  return day === addDays(today, 1) ? 'Tomorrow' : weekday(day)
 }
 
 function Ring({ done, total }: { done: number, total: number }) {
@@ -64,14 +60,14 @@ function Modal({ open, onClose, children }: { open: boolean, onClose: () => void
   )
 }
 
-type Info = { habit: Habit, day: string, note: string }
+type NoteView = { habit: Habit, day: string, note: string }
 
-function NoteInfo({ info, onClose }: { info: Info, onClose: () => void }) {
+function NoteInfo({ habit, day, note, onClose }: NoteView & { onClose: () => void }) {
   return (
     <div>
-      <h2>{info.habit.label}</h2>
-      <p className="med-info-date">{shortDate(info.day)}</p>
-      <p className="med-note">{info.note}</p>
+      <h2>{habit.label}</h2>
+      <p className="med-info-date">{shortDate(day)}</p>
+      <p className="med-note">{note}</p>
       <div className="med-actions">
         <button className="med-primary" type="button" onClick={onClose}>Close</button>
       </div>
@@ -88,17 +84,13 @@ function LogForm({ log, today, onSave, onCancel }: { log: Log, today: string, on
 
   const pickDay = (d: string) => { setDay(d); setChecked(log.days[d] ?? []); setNotes(log.notes[d] ?? {}); setError('') }
   const toggle = (id: string) => setChecked((c) => (c.includes(id) ? c.filter((x) => x !== id) : [...c, id]))
-  // Writing a note means the habit was done.
-  const writeNote = (id: string, text: string) => {
-    setNotes((n) => ({ ...n, [id]: text }))
-    if (text.trim()) setChecked((c) => (c.includes(id) ? c : [...c, id]))
-  }
   const submit = async () => {
     if (!day || day > today) { setError('Pick today or a past day.'); return }
     setSaving(true)
     setError('')
     const ids = habits.map((h) => h.id).filter((id) => checked.includes(id))
-    const dayNotes = Object.fromEntries(ids.map((id) => [id, notes[id]?.trim() ?? '']).filter(([, text]) => text))
+    // Only done habits keep their notes.
+    const dayNotes = Object.fromEntries(ids.map((id) => [id, notes[id]?.trim()]).filter(([, text]) => text))
     try { await onSave(day, ids, dayNotes) } catch (e) { setError((e as Error).message); setSaving(false) }
   }
 
@@ -117,8 +109,8 @@ function LogForm({ log, today, onSave, onCancel }: { log: Log, today: string, on
               <span className="med-box" aria-hidden="true" />
               {h.label}
             </label>
-            {h.note && (
-              <textarea className="med-note-input" value={notes[h.id] ?? ''} onChange={(e) => writeNote(h.id, e.target.value)} placeholder={h.note} rows={2} aria-label={`${h.label} note`} />
+            {checked.includes(h.id) && (
+              <textarea className="med-note-input" value={notes[h.id] ?? ''} onChange={(e) => setNotes((n) => ({ ...n, [h.id]: e.target.value }))} placeholder="Note (optional)" rows={1} aria-label={`${h.label} note`} />
             )}
           </li>
         ))}
@@ -152,14 +144,16 @@ function ConnectForm({ onConnect, onCancel }: { onConnect: (token: string) => vo
   )
 }
 
+type ModalState = 'log' | 'connect' | NoteView | null
+
 function MedroutinePage() {
   const [token, setToken] = useState(loadToken)
   const [log, setLog] = useState<Log>({ days: {}, notes: {} })
   const [loadError, setLoadError] = useState('')
-  const [modal, setModal] = useState<'log' | 'connect' | null>(null)
-  const [info, setInfo] = useState<Info | null>(null)
+  const [modal, setModal] = useState<ModalState>(null)
   const sha = useRef<string | null>(null)
   const today = isoDate(new Date())
+  const close = () => setModal(null)
 
   useEffect(() => {
     readLog(token)
@@ -171,8 +165,8 @@ function MedroutinePage() {
     if (!token) throw new Error('Connect GitHub first.')
     const withDay = (base: Log) => {
       const days = { ...base.days, [day]: ids }
-      if (ids.length === 0) delete days[day]
       const notes = { ...base.notes, [day]: dayNotes }
+      if (ids.length === 0) delete days[day]
       if (Object.keys(dayNotes).length === 0) delete notes[day]
       return { days, notes }
     }
@@ -188,13 +182,11 @@ function MedroutinePage() {
       sha.current = await writeLog(token, next, remote.sha, message)
     }
     setLog(next)
-    setModal(null)
+    close()
   }
 
   const connect = (t: string) => { storeToken(t); setToken(t); setModal('log') }
   const disconnect = () => { storeToken(null); setToken(null) }
-
-  const days = dayRange(log, today)
 
   return (
     <div className="site medroutine-page">
@@ -211,7 +203,7 @@ function MedroutinePage() {
       <main className="med-content">
         {loadError && <p className="med-error">Couldn't load the log: {loadError}</p>}
         <ol className="med-days">
-          {days.map((day) => {
+          {dayRange(log, today).map((day) => {
             const active = habitsOn(day, log.days[day])
             const done = active.filter((h) => log.days[day]?.includes(h.id))
             return (
@@ -223,16 +215,17 @@ function MedroutinePage() {
                 <div className="med-strip">
                   {active.map((h) => {
                     const isDone = done.includes(h)
+                    const note = log.notes[day]?.[h.id]
+                    const className = `med-tile${isDone ? ' done' : ''}${note ? ' has-note' : ''}`
                     const content = (
                       <>
                         <span className="med-box" aria-hidden="true" />
                         <span>{h.label}<span className="sr-only">{isDone ? ', done' : ', not done'}</span></span>
                       </>
                     )
-                    const note = log.notes[day]?.[h.id]
                     return note
-                      ? <button className={`med-tile has-note${isDone ? ' done' : ''}`} type="button" key={h.id} onClick={() => setInfo({ habit: h, day, note })} title="Show note">{content}</button>
-                      : <div className={`med-tile${isDone ? ' done' : ''}`} key={h.id}>{content}</div>
+                      ? <button className={className} type="button" key={h.id} onClick={() => setModal({ habit: h, day, note })} title="Show note">{content}</button>
+                      : <div className={className} key={h.id}>{content}</div>
                   })}
                 </div>
                 <Ring done={done.length} total={active.length} />
@@ -243,12 +236,10 @@ function MedroutinePage() {
       </main>
       <footer><span>medroutine / 01B</span></footer>
 
-      <Modal open={modal !== null} onClose={() => setModal(null)}>
-        {modal === 'log' && <LogForm log={log} today={today} onSave={saveDay} onCancel={() => setModal(null)} />}
-        {modal === 'connect' && <ConnectForm onConnect={connect} onCancel={() => setModal(null)} />}
-      </Modal>
-      <Modal open={info !== null} onClose={() => setInfo(null)}>
-        {info && <NoteInfo info={info} onClose={() => setInfo(null)} />}
+      <Modal open={modal !== null} onClose={close}>
+        {modal === 'log' && <LogForm log={log} today={today} onSave={saveDay} onCancel={close} />}
+        {modal === 'connect' && <ConnectForm onConnect={connect} onCancel={close} />}
+        {typeof modal === 'object' && modal && <NoteInfo {...modal} onClose={close} />}
       </Modal>
     </div>
   )
