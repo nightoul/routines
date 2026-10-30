@@ -4,13 +4,20 @@
       "exercise",
       "vitamin-d",
       "apple"
+    ],
+    "2026-10-30": [
+      "soup",
+      "nuts",
+      "vitamin-d"
     ]
   },
-  "steps": {
+  "notes": {
     "2026-10-29": {
-      "exercise": [
-        "prochazka na stvanici"
-      ]
+      "exercise": "prochazka na stvanici"
+    },
+    "2026-10-30": {
+      "soup": "spenat",
+      "nuts": "all 3 + pine nuts"
     }
   }
 }
