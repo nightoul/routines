@@ -2,12 +2,17 @@ const categories = [
   { name: 'breakfast', number: '01', className: 'breakfast', recipes: ['Vločky', 'coming soon'] },
   { name: 'lunch / dinner', number: '02', className: 'lunch', recipes: ['pečené hrozny', 'coming soon', 'coming soon', 'coming soon'] },
   { name: 'salads', number: '03', className: 'salads', recipes: ['coming soon', 'coming soon'] },
-  { name: 'soups', number: '04', className: 'soups', recipes: ['coming soon'] },
+  { name: 'soups', number: '04', className: 'soups', recipes: ['špenátová', 'čočková', 'brokolicová', 'dýňová', 'mrkvová'] },
   { name: 'other', number: '05', className: 'other', recipes: ['coming soon', 'coming soon', 'coming soon'] },
 ]
 
-function recipeHref(recipe: string) {
-  return recipe === 'pečené hrozny' ? '#recipes/pecene-hrozny' : undefined
+const recipeLinks: Record<string, string> = {
+  'pečené hrozny': '#recipes/lunch/pecene-hrozny',
+  'špenátová': '#recipes/soups/spenatova',
+  'čočková': '#recipes/soups/cockova',
+  'brokolicová': '#recipes/soups/brokolicova',
+  'dýňová': '#recipes/soups/dynova',
+  'mrkvová': '#recipes/soups/mrkvova',
 }
 
 function RecipesPage() {
@@ -21,7 +26,7 @@ function RecipesPage() {
               <div className="category-heading"><span>{category.number}</span><h2>{category.name}</h2><small>{category.recipes.length} entries</small></div>
               <ol>
                 {category.recipes.map((recipe, index) => {
-                  const href = recipeHref(recipe)
+                  const href = recipeLinks[recipe]
                   return (
                     <li key={`${recipe}-${index}`}>
                       {href ? <a href={href}>{recipe}<span>↗</span></a> : <span className="recipe-placeholder"><b>{String(index + 1).padStart(2, '0')}</b>{recipe}</span>}
