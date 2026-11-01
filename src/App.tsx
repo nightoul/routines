@@ -3,7 +3,7 @@ import './App.css'
 import HomePage from './pages/HomePage'
 import HostsPage from './pages/HostsPage'
 import MacSetupPage from './pages/MacSetupPage'
-import MedroutinePage from './pages/MedroutinePage'
+import MedroutinesPage from './pages/MedroutinesPage'
 import QpdfPage from './pages/QpdfPage'
 import RecipesPage from './pages/RecipesPage'
 import PeceneHroznyPage from './pages/recipes/lunch/PeceneHroznyPage'
@@ -31,7 +31,7 @@ function App() {
   if (hash === '#trim-convert') return <TrimConvertPage />
   if (hash.startsWith('#mac-setup')) return <MacSetupPage />
   if (hash === '#etc-hosts') return <HostsPage />
-  if (hash === '#medroutine') return <MedroutinePage />
+  if (hash === '#medroutines') return <MedroutinesPage />
   if (hash === '#recipes/lunch/pecene-hrozny') return <PeceneHroznyPage />
   if (hash === '#recipes/soups/spenatova') return <SpenatovaPage />
   if (hash === '#recipes/soups/cockova') return <CockovaPage />

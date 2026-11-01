@@ -1,7 +1,8 @@
 import { type ReactNode, useEffect, useRef, useState } from 'react'
-import { type Habit, habits, habitsOn, startDate } from '../medroutine/config'
-import { ConflictError, type DayNotes, readLog, type Log, writeLog } from '../medroutine/github'
+import { type Habit, habits, habitsOn, startDate } from '../medroutines/config'
+import { ConflictError, type DayNotes, readLog, type Log, writeLog } from '../medroutines/github'
 
+// Kept singular on purpose: renaming it would forget the token on every device.
 const TOKEN_KEY = 'medroutine-token'
 const DAYS_AHEAD = 1
 
@@ -143,7 +144,7 @@ function ConnectForm({ onConnect, onCancel }: { onConnect: (token: string) => vo
 
 type ModalState = 'log' | 'connect' | NoteView | null
 
-function MedroutinePage() {
+function MedroutinesPage() {
   const [token, setToken] = useState(loadToken)
   const [log, setLog] = useState<Log>({ days: {}, notes: {} })
   const [loadError, setLoadError] = useState('')
@@ -167,7 +168,7 @@ function MedroutinePage() {
       if (Object.keys(dayNotes).length === 0) delete notes[day]
       return { days, notes }
     }
-    const message = `medroutine: log ${day}`
+    const message = `medroutines: log ${day}`
     let next = withDay(log)
     try {
       sha.current = await writeLog(token, next, sha.current, message)
@@ -186,9 +187,9 @@ function MedroutinePage() {
   const disconnect = () => { storeToken(null); setToken(null) }
 
   return (
-    <div className="site medroutine-page">
+    <div className="site medroutines-page">
       <header className="med-header">
-        <nav><a className="brand" href="#">routines</a><span>medroutine</span></nav>
+        <nav><a className="brand" href="#">routines</a><span>medroutines</span></nav>
         <div className="med-header-actions">
           {token
             ? <button className="med-text-button" type="button" onClick={disconnect}>Disconnect</button>
@@ -231,7 +232,7 @@ function MedroutinePage() {
           })}
         </ol>
       </main>
-      <footer><span>medroutine / 01B</span></footer>
+      <footer><span>medroutines / 01B</span></footer>
 
       <Modal open={modal !== null} wide={modal === 'log'} onClose={close}>
         {modal === 'log' && <LogForm log={log} today={today} onSave={saveDay} onCancel={close} />}
@@ -242,4 +243,4 @@ function MedroutinePage() {
   )
 }
 
-export default MedroutinePage
+export default MedroutinesPage

@@ -17,10 +17,11 @@ export const habits: Habit[] = [
   { id: 'vitamin-d', label: 'vitamin d' },
   { id: 'jumping-jacks', label: 'jumping jacks', from: '2026-10-29' },
   { id: 'piano', label: 'piano', from: '2026-10-29' },
+  { id: 'relaxation', label: 'relaxation', from: '2026-11-01' },
 ]
 
 // Habits active on a day, plus any logged on it, so logged data never disappears from view.
 export const habitsOn = (day: string, logged: string[] = []) =>
   habits.filter((h) => logged.includes(h.id) || ((!h.from || day >= h.from) && (!h.until || day <= h.until)))
 
-export const repo = { owner: 'nightoul', name: 'routines', branch: 'master', path: 'data/medroutine-log.json' }
+export const repo = { owner: 'nightoul', name: 'routines', branch: 'master', path: 'data/medroutines-log.json' }

@@ -21,14 +21,9 @@ export async function readLog(token: string | null): Promise<LogFile> {
   if (res.status === 404) return { log: { days: {}, notes: {} }, sha: null }
   if (!res.ok) throw new Error(`GitHub read failed (${res.status})`)
   const body = await res.json()
-  const log = JSON.parse(decode(body.content)) as Partial<Log> & { steps?: Record<string, Record<string, string[]>> }
-  return { log: { days: log.days ?? {}, notes: log.notes ?? notesFromSteps(log.steps) }, sha: body.sha }
+  const log = JSON.parse(decode(body.content)) as Partial<Log>
+  return { log: { days: log.days ?? {}, notes: log.notes ?? {} }, sha: body.sha }
 }
-
-// Older logs kept a list of steps per habit; read them as one note with a line per step.
-// The next save writes `notes` instead; once the log on GitHub has `notes`, this can go.
-const notesFromSteps = (steps: Record<string, Record<string, string[]>> = {}) =>
-  Object.fromEntries(Object.entries(steps).map(([day, byHabit]) => [day, Object.fromEntries(Object.entries(byHabit).map(([id, lines]) => [id, lines.join('\n')]))]))
 
 export class ConflictError extends Error {}
 
