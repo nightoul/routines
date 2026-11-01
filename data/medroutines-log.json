@@ -8,7 +8,8 @@
     "2026-10-30": [
       "soup",
       "nuts",
-      "vitamin-d"
+      "vitamin-d",
+      "relaxation"
     ],
     "2026-10-31": [
       "vitamin-d"
@@ -20,7 +21,8 @@
     },
     "2026-10-30": {
       "soup": "spenat",
-      "nuts": "all 3 + pine nuts"
+      "nuts": "all 3 + pine nuts",
+      "relaxation": "ve Lhotě první uvolnění hip flexors, pak běh"
     }
   }
 }
