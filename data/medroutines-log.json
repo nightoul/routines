@@ -17,7 +17,8 @@
     ],
     "2026-11-01": [
       "apple",
-      "vitamin-d"
+      "vitamin-d",
+      "relaxation"
     ]
   },
   "notes": {
@@ -31,6 +32,9 @@
     },
     "2026-10-31": {
       "relaxation": "hip flexors, krk a šíje"
+    },
+    "2026-11-01": {
+      "relaxation": "hips, neck"
     }
   }
 }
