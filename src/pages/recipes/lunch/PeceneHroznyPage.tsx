@@ -3,7 +3,7 @@ function PeceneHroznyPage() {
     <div className="site recipe-page compact-page">
       <header><a className="brand" href="#">routines</a></header>
       <main className="recipe-content">
-        <section className="recipe-section recipe-detail">
+        <section className="recipe-section">
           <a className="recipe-back" href="#recipes">recepty</a>
           <div className="recipe-grid">
             <article className="recipe-card">
@@ -18,7 +18,7 @@ function PeceneHroznyPage() {
                 <li>sůl a čerstvě mletý pepř</li>
               </ul>
             </article>
-            <article className="recipe-card recipe-method">
+            <article className="recipe-card">
               <h2>postup</h2>
               <ol>
                 <li>Rozehřej troubu. Nakrájej batáty.</li>

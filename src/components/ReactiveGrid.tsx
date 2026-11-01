@@ -11,7 +11,7 @@ function ReactiveGrid() {
     let width = 0
     let height = 0
     let pointer = { x: -500, y: -500 }
-    let current = { x: -500, y: -500 }
+    const current = { x: -500, y: -500 }
     const resize = () => {
       const ratio = Math.min(window.devicePixelRatio || 1, 2)
       width = window.innerWidth
@@ -21,7 +21,8 @@ function ReactiveGrid() {
       context.setTransform(ratio, 0, 0, ratio, 0, 0)
     }
     const move = (event: PointerEvent) => { pointer = { x: event.clientX, y: event.clientY } }
-    const leave = () => { pointer = { x: -500, y: -500 } }
+    // The pointer left the window when it moves out to no element at all.
+    const leave = (event: PointerEvent) => { if (!event.relatedTarget) pointer = { x: -500, y: -500 } }
     const bend = (x: number, y: number) => {
       const dx = x - current.x
       const dy = y - current.y
@@ -60,12 +61,12 @@ function ReactiveGrid() {
     draw()
     window.addEventListener('resize', resize)
     window.addEventListener('pointermove', move)
-    window.addEventListener('pointerleave', leave)
+    document.addEventListener('pointerout', leave)
     return () => {
       cancelAnimationFrame(frame)
       window.removeEventListener('resize', resize)
       window.removeEventListener('pointermove', move)
-      window.removeEventListener('pointerleave', leave)
+      document.removeEventListener('pointerout', leave)
     }
   }, [])
   return <canvas className="reactive-grid" ref={canvasRef} aria-hidden="true" />

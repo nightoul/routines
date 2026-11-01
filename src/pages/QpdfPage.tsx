@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import CopyCommand from '../components/CopyCommand'
 
 const splitCommands = [
   {
@@ -10,16 +10,6 @@ const splitCommands = [
     command: 'qpdf --empty --pages input.pdf 12,45 -- output.pdf',
   },
 ]
-
-function CopyCommand({ command }: { command: string }) {
-  const [copied, setCopied] = useState(false)
-  const copy = async () => {
-    await navigator.clipboard.writeText(command)
-    setCopied(true)
-    window.setTimeout(() => setCopied(false), 1600)
-  }
-  return <button className="copy-command" type="button" onClick={copy}>{copied ? 'copied' : 'copy'}</button>
-}
 
 function QpdfPage() {
   return (

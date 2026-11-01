@@ -1,21 +1,10 @@
-import { useState } from 'react'
+import CopyCommand from '../components/CopyCommand'
 
 const commands = [
-  'cd /Users/jakubjenc/whisper',
-  'source venv/bin/activate',
-  'whisper ~/Desktop/Untitled.mp3 --model large-v3',
+  'source ~/whisper-env/bin/activate',
+  'whisper ~/Desktop/Untitled.mp3 --model large-v3 --output_dir ~/Desktop',
   'deactivate',
 ]
-
-function CopyCommand({ command }: { command: string }) {
-  const [copied, setCopied] = useState(false)
-  const copy = async () => {
-    await navigator.clipboard.writeText(command)
-    setCopied(true)
-    window.setTimeout(() => setCopied(false), 1600)
-  }
-  return <button className="copy-command" type="button" onClick={copy}>{copied ? 'copied' : 'copy'}</button>
-}
 
 function WhisperPage() {
   return (

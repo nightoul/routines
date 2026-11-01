@@ -23,18 +23,17 @@ function RecipesPage() {
         <div className="recipe-catalog" aria-label="Recipe categories">
           {categories.map((category) => (
             <section className={`recipe-category ${category.className}`} key={category.name}>
-              <div className="category-heading"><span>{category.number}</span><h2>{category.name}</h2><small>{category.recipes.length} entries</small></div>
+              <div className="category-heading"><span>{category.number}</span><h2>{category.name}</h2></div>
               <ol>
                 {category.recipes.map((recipe, index) => {
                   const href = recipeLinks[recipe]
                   return (
                     <li key={`${recipe}-${index}`}>
-                      {href ? <a href={href}>{recipe}<span>↗</span></a> : <span className="recipe-placeholder"><b>{String(index + 1).padStart(2, '0')}</b>{recipe}</span>}
+                      {href ? <a href={href}>{recipe}<span>↗</span></a> : <span className="recipe-placeholder">{recipe}</span>}
                     </li>
                   )
                 })}
               </ol>
-              <span className="category-mark">+</span>
             </section>
           ))}
         </div>

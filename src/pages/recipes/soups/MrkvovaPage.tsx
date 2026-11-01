@@ -3,7 +3,7 @@ function MrkvovaPage() {
     <div className="site recipe-page compact-page">
       <header><a className="brand" href="#">routines</a></header>
       <main className="recipe-content">
-        <section className="recipe-section recipe-detail">
+        <section className="recipe-section">
           <a className="recipe-back" href="#recipes">recepty</a>
         </section>
       </main>

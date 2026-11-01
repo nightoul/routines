@@ -1,14 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import CopyCommand from '../components/CopyCommand'
 
 const dockCommand = 'defaults write com.apple.dock autohide-time-modifier -int 0; killall Dock'
 const promptCommand = "PROMPT='%F{green}%n %~$%f '"
-const homebrewCommands = [
+const gitCommands = [
   'brew install git',
   'which git',
   'brew install gh',
   'gh auth login',
+]
+const brewUpdateCommands = [
   'brew update',
   'brew upgrade',
+]
+const toolCommands = [
   'brew install node',
   'brew install blackhole-2ch',
   'brew install yt-dlp',
@@ -25,16 +30,6 @@ const whisperInstallCommands = [
   'python -m pip install --upgrade pip',
   'python -m pip install -U openai-whisper',
 ]
-
-function CopyCommand({ command }: { command: string }) {
-  const [copied, setCopied] = useState(false)
-  const copy = async () => {
-    await navigator.clipboard.writeText(command)
-    setCopied(true)
-    window.setTimeout(() => setCopied(false), 1600)
-  }
-  return <button className="copy-command" type="button" onClick={copy}>{copied ? 'copied' : 'copy'}</button>
-}
 
 function SetupCode({ command, multiline = false }: { command: string, multiline?: boolean }) {
   return <div className={`setup-command${multiline ? ' multiline-command' : ''}`}><code>{command}</code><CopyCommand command={command} /></div>
@@ -182,15 +177,15 @@ function MacSetupPage() {
           <article className="preference-group terminal-reading">
             <h3><span>2</span> Git &amp; GitHub CLI</h3>
             <p>Install Git, verify its path, then install and authenticate GitHub CLI.</p>
-            {homebrewCommands.slice(0, 4).map((command) => <SetupCode command={command} key={command} />)}
+            {gitCommands.map((command) => <SetupCode command={command} key={command} />)}
           </article>
           <article className="preference-group terminal-reading">
             <h3><span>3</span> Keep Homebrew current</h3>
-            {homebrewCommands.slice(4, 6).map((command) => <SetupCode command={command} key={command} />)}
+            {brewUpdateCommands.map((command) => <SetupCode command={command} key={command} />)}
           </article>
           <article className="preference-group terminal-reading">
             <h3><span>4</span> Other tools</h3>
-            {homebrewCommands.slice(6).map((command) => <SetupCode command={command} key={command} />)}
+            {toolCommands.map((command) => <SetupCode command={command} key={command} />)}
           </article>
         </section>
 
@@ -271,7 +266,7 @@ function MacSetupPage() {
           </article>
         </section>
       </main>
-      <footer><span>mac / 01</span></footer>
+      <footer><span>mac setup / 06</span></footer>
     </div>
   )
 }

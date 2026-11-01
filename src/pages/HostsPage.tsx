@@ -1,19 +1,9 @@
-import { useState } from 'react'
+import CopyCommand from '../components/CopyCommand'
 
 const commands = {
   open: 'sudo nano /etc/hosts',
   hosts: '127.0.0.1 instagram.com\n127.0.0.1 www.instagram.com',
   flush: 'sudo dscacheutil -flushcache\nsudo killall -HUP mDNSResponder',
-}
-
-function CopyCommand({ command }: { command: string }) {
-  const [copied, setCopied] = useState(false)
-  const copy = async () => {
-    await navigator.clipboard.writeText(command)
-    setCopied(true)
-    window.setTimeout(() => setCopied(false), 1600)
-  }
-  return <button className="copy-command" type="button" onClick={copy}>{copied ? 'copied' : 'copy'}</button>
 }
 
 function CommandBlock({ command }: { command: string }) {
