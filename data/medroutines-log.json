@@ -19,6 +19,12 @@
       "apple",
       "vitamin-d",
       "relaxation"
+    ],
+    "2026-11-02": [
+      "exercise",
+      "nuts",
+      "vitamin-d",
+      "relaxation"
     ]
   },
   "notes": {
@@ -35,6 +41,10 @@
     },
     "2026-11-01": {
       "relaxation": "hips, neck"
+    },
+    "2026-11-02": {
+      "exercise": "shyby na byte",
+      "relaxation": "bedra s podlozkou, vis krku, panev na chvili zcela bez napeti"
     }
   }
 }
